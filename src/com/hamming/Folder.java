@@ -96,7 +96,7 @@ public class Folder {
             for (Project p : projects){
                 System.out.println("\t |- " + p.printProject());
                 if(p.hasTask()){
-                    System.out.println("\t \t |--" + p.printTasks());
+                    System.out.println(p.printTasks());
                 }
             }
         }
