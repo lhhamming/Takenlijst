@@ -4,88 +4,81 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Project {
-    private String titel;
-    private boolean active;
-    private String note;
-    ArrayList<Task> tasks = new ArrayList<>();
+    private final ArrayList<Task> tasks = new ArrayList<>();
+    private final String title;
+    private final boolean active;
+    private final String note;
 
-    public Project(String titel, boolean active, String note){
-        this.titel = titel;
+    public Project(String title, boolean active, String note) {
+        this.title = title;
         this.active = active;
         this.note = note;
     }
 
-
     @Override
     public String toString() {
-        if(this.active){
-            return "Project title: " + this.titel + "\n" +
-                    "  Active: Yes" + "\n" +
-                    "  Project note: " + this.note + "\n";
-        }else{
-            return "Project title: " + this.titel + "\n" +
-                    "Active: No" + "\n" +
-                    "Project note: " + this.note + "\n";
-        }
+        return "Project title: " + this.title + "\n" +
+                "  Active: " + (this.active ? "Yes" : "No") + "\n" +
+                "  Project note: " + this.note + "\n";
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public void addTask() {
-        System.out.println("What will the name of the task be?");
         Scanner sc = new Scanner(System.in);
+        System.out.println("What will the name of the task be?");
+        System.out.print("> ");
         String taskName = sc.nextLine();
-        System.out.println("What will the Due date be?");
-        String dueDate = sc.nextLine();
-        while(!dateHelper.dateCorrect(dueDate)){
-            System.out.println("Due date isnt correct please type it in like this \n dd-mm-yyyy / 21-12-2019");
+        System.out.println("What will the due date be?");
+        System.out.print("> ");
+        String dueDate = sc.nextLine().trim();
+        while (!DateHelper.dateCorrect(dueDate)) {
+            System.out.println("Due date isn't correct please type it in like this \n dd-mm-yyyy / 21-12-2019");
             dueDate = sc.nextLine();
         }
-        System.out.println("What will the Defer date be?");
-        String deferDate = sc.nextLine();
-        if(deferDate.equals("") || deferDate.equals(" ")){
-            //Do nothing
-        }
-        else{
-            while(dateHelper.dateCorrect(deferDate)){
-                System.out.println("Defer date isnt correct please type it in like this \n dd-mm-yyyy / 21-12-2019");
+        System.out.println("What will the defer date be? (Leave empty to skip)");
+        System.out.print("> ");
+        String deferDate = sc.nextLine().trim();
+        if (!deferDate.equals("")) {
+            while (DateHelper.dateCorrect(deferDate)) {
+                System.out.println("Defer date isn't correct please type it in like this \n dd-mm-yyyy / 21-12-2019");
                 deferDate = sc.nextLine();
             }
+        } else {
+            deferDate = dueDate;
         }
         System.out.println("What will the task note be?");
+        System.out.print("> ");
         String taskNote = sc.nextLine();
-        tasks.add(new Task(taskName,dueDate,deferDate,taskNote,true));
+        tasks.add(new Task(taskName, dueDate, deferDate, taskNote, true));
     }
 
-    public String printProject(){
-        if(this.active){
-            return "Title: " + this.titel + " | Active: Yes | Note: " + this.note;
-        }
-        else{
-            return "Title: " + this.titel + " | Active: No | Note: " + this.note;
-        }
+    public String printProject() {
+        return String.format("Title: %s | Active: %s | Note: %s", this.title, this.active ? "Yes" : "No", this.note);
     }
 
     public boolean hasTask() {
-        if(tasks.size() != 0){
-            //it has tasks
-            return true;
-        }
-        else{
-            //it does not have any tasks
-            return false;
-        }
+        //it has tasks
+        //it does not have any tasks
+        return tasks.size() != 0;
     }
 
     public String printTasks() {
         StringBuilder sb = new StringBuilder();
         int Index = 0;
-        for(Task t : tasks){
+        for (Task t : tasks) {
             Index++;
-            if(Index != tasks.size()){
-                sb.append("\t \t |--" + t.printTask() + "\n");
-            }else{
-                sb.append("\t \t |--" + t.printTask());
+            sb.append("\t \t |--").append(t.printTask());
+            if (Index != tasks.size()) {
+                sb.append("\n");
             }
         }
         return sb.toString();
+    }
+
+    public ArrayList<Task> getTasks() {
+        return tasks;
     }
 }
