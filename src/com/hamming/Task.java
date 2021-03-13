@@ -1,14 +1,14 @@
 package com.hamming;
 
 public class Task {
-    private String titel;
-    private String deferDate;
-    private String dueDate;
-    private String note;
-    private boolean active;
+    private final String title;
+    private final String deferDate;
+    private final String dueDate;
+    private final String note;
+    private final boolean active;
 
-    public Task(String titel, String deferDate, String dueDate, String note, boolean active){
-        this.titel = titel;
+    public Task(String title, String deferDate, String dueDate, String note, boolean active) {
+        this.title = title;
         this.deferDate = deferDate;
         this.dueDate = dueDate;
         this.note = note;
@@ -18,26 +18,14 @@ public class Task {
 
     @Override
     public String toString() {
-        if(this.active){
-            return "Task titel:" + this.titel + "\n" +
-                    "Task defer date:" + this.titel + "\n" +
-                    "Task due date:" + this.titel + "\n" +
-                    "Task note:" + this.titel + "\n" +
-                    "Task active: yes" + "\n";
-        }
-        return "Task titel:" + this.titel + "\n" +
-               "Task defer date:" + this.titel + "\n" +
-               "Task due date:" + this.titel + "\n" +
-               "Task note:" + this.titel + "\n" +
-               "Task active: no"+ "\n";
+        return "Task title:" + this.title + "\n" +
+                "Task defer date:" + this.deferDate + "\n" +
+                "Task due date:" + this.dueDate + "\n" +
+                "Task note:" + this.note + "\n" +
+                "Task active: " + (this.active ? "Yes" : "No") + "\n";
     }
 
     public String printTask() {
-        if(this.active){
-            return "Title: " + this.titel + "| Active: Yes";
-        }
-        else{
-            return "Title: " + this.titel + "|  Active: No";
-        }
+        return String.format("Title: %s | Active: %s", this.title, this.active ? "Yes" : "No");
     }
 }
